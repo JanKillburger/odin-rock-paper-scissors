@@ -1,9 +1,9 @@
-let humanScore = 0;
-let computerScore = 0;
 const ROUNDS = 5;
 const CHOICES = ["rock", "paper", "scissors"];
 
 function playGame() {
+  let humanScore = 0;
+  let computerScore = 0;
   for (let i = 0; i < ROUNDS; i++) {
     playRound(getComputerChoice(), getHumanChoice());
   }
@@ -15,7 +15,7 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  const humanChoice = prompt("Please enter 'rock', 'paper' or 'scissors'").toLowerCase();
+  const humanChoice = prompt(`Please enter one of: ${CHOICES.join(', ')}`).toLowerCase();
   if (CHOICES.includes(humanChoice)) {
     return humanChoice
   } else {
@@ -29,7 +29,7 @@ function playRound(computerChoice, humanChoice) {
   } else if (
     (computerChoice == "rock" && humanChoice == "scissors") ||
     (computerChoice == "paper" && humanChoice == "rock") ||
-    (computerChoice == "scissors" && humanChoice == "paper")  
+    (computerChoice == "scissors" && humanChoice == "paper")
   ) {
     computerScore++;
     console.log(`Computer wins with score ${computerScore}! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
