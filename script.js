@@ -1,19 +1,25 @@
 let humanScore = 0;
 let computerScore = 0;
+const ROUNDS = 5;
+const CHOICES = ["rock", "paper", "scissors"];
+
+function playGame() {
+  for (let i = 0; i < ROUNDS; i++) {
+    playRound(getComputerChoice(), getHumanChoice());
+  }
+}
 
 function getComputerChoice() {
-  const choices = ["rock", "paper", "scissors"];
-  const randomIndex = Math.floor(Math.random() * choices.length);
-  return choices[randomIndex];
+  const randomIndex = Math.floor(Math.random() * CHOICES.length);
+  return CHOICES[randomIndex];
 }
 
 function getHumanChoice() {
   const humanChoice = prompt("Please enter 'rock', 'paper' or 'scissors'").toLowerCase();
-  const validChoices = ["rock", "paper", "scissors"];
-  if (validChoices.includes(humanChoice)) {
+  if (CHOICES.includes(humanChoice)) {
     return humanChoice
   } else {
-    console.error(new TypeError(`Valid choices are: rock, paper, scissors. You entered: ${humanChoice}`))
+    console.error(new TypeError(`Valid choices are: ${CHOICES.join(', ')}. You entered: ${humanChoice}`))
   }
 }
 
@@ -41,4 +47,4 @@ function capitalize(string) {
   }
 }
 
-playRound(getComputerChoice(), getHumanChoice())
+playGame()
