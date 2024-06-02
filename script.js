@@ -8,26 +8,36 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  const humanChoice = prompt("Please enter 'rock', 'paper' or 'scissors'")
+  const humanChoice = prompt("Please enter 'rock', 'paper' or 'scissors'").toLowerCase();
   const validChoices = ["rock", "paper", "scissors"];
   if (validChoices.includes(humanChoice)) {
     return humanChoice
   } else {
-    getHumanChoice()
+    console.error(new TypeError(`Valid choices are: rock, paper, scissors. You entered: ${humanChoice}`))
   }
 }
 
 function playRound(computerChoice, humanChoice) {
   if (computerChoice == humanChoice) {
-    console.log("It's a tie. You both selected: ", computerChoice);
+    console.log("It's a tie. You both selected: ", capitalize(computerChoice));
   } else if (
     (computerChoice == "rock" && humanChoice == "scissors") ||
     (computerChoice == "paper" && humanChoice == "rock") ||
     (computerChoice == "scissors" && humanChoice == "paper")  
   ) {
-    console.log(`Computer wins! (ComputerChoice: ${computerChoice}, your Choice: ${humanChoice})`)
+    computerScore++;
+    console.log(`Computer wins with score ${computerScore}! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
   } else {
-    console.log("You win! (ComputerChoice: ", computerChoice, "; your Choice: ", humanChoice, ")")
+    humanScore++;
+    console.log(`You win with score ${humanScore}! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
+  }
+}
+
+function capitalize(string) {
+  if (string.length == 1) {
+    return string[0].toUpperCase();
+  } else if (string.length >= 2) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
   }
 }
 
