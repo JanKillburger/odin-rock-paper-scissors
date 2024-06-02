@@ -5,8 +5,14 @@ function playGame() {
   let humanScore = 0;
   let computerScore = 0;
   for (let i = 0; i < ROUNDS; i++) {
-    playRound(getComputerChoice(), getHumanChoice());
+     const roundWinner = playRound(getComputerChoice(), getHumanChoice());
+     if (roundWinner == "computer") {
+      computerScore++;
+     } else if (roundWinner == "human") {
+      humanScore++;
+     }
   }
+  console.log(humanScore > computerScore ? "You win!" : humanScore == computerScore ? "It's a tie!" : "You lose!")
 }
 
 function getComputerChoice() {
@@ -25,17 +31,18 @@ function getHumanChoice() {
 
 function playRound(computerChoice, humanChoice) {
   if (computerChoice == humanChoice) {
-    console.log("It's a tie. You both selected: ", capitalize(computerChoice));
+    console.log(`It's a tie. You both selected: ${capitalize(computerChoice)}`);
+    return "tie";
   } else if (
     (computerChoice == "rock" && humanChoice == "scissors") ||
     (computerChoice == "paper" && humanChoice == "rock") ||
     (computerChoice == "scissors" && humanChoice == "paper")
   ) {
-    computerScore++;
-    console.log(`Computer wins with score ${computerScore}! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
+    console.log(`Computer wins current round! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
+    return "computer";
   } else {
-    humanScore++;
-    console.log(`You win with score ${humanScore}! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
+    console.log(`You win current round! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}`)
+    return "human";
   }
 }
 
