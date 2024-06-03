@@ -1,6 +1,6 @@
 const WINNING_POINTS = 5;
 const CHOICES = ["rock", "paper", "scissors"];
-let humanScore, computerScore, round;
+let humanScore, computerScore;
 
 const humanScoreEl = document.querySelector('#human-score');
 const computerScoreEl = document.querySelector('#computer-score');
@@ -18,7 +18,6 @@ initGame();
 function initGame() {
   humanScore = 0;
   computerScore = 0;
-  round = 0;
   results.textContent = '';
   playBtns.forEach(btn => btn.disabled = false)
   computerScoreEl.textContent = 0;
@@ -31,7 +30,6 @@ function getComputerChoice() {
 }
 
 function playRound(computerChoice, humanChoice) {
-  round++;
   const roundWinner = getRoundWinner(computerChoice, humanChoice);
   const result = document.createElement('p')
   if (roundWinner == "tie") {
