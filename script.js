@@ -1,18 +1,28 @@
-const ROUNDS = 5;
+const WINNING_POINTS = 5;
 const CHOICES = ["rock", "paper", "scissors"];
+let humanScore, computerScore, round;
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
-  for (let i = 0; i < ROUNDS; i++) {
-    const roundWinner = playRound(getComputerChoice(), getHumanChoice());
-    if (roundWinner == "computer") {
-      computerScore++;
-    } else if (roundWinner == "human") {
-      humanScore++;
-    }
-  }
-  console.log(humanScore > computerScore ? "You win!" : humanScore == computerScore ? "It's a tie!" : "You lose!")
+const humanScoreEl = document.querySelector('#human-score');
+const computerScoreEl = document.querySelector('#computer-score');
+const initBtn = document.querySelector('#init-btn');
+initBtn.addEventListener("click", initGame)
+const playBtns = document.querySelectorAll("button[data-choice]")
+playBtns.forEach(
+  btn => btn.addEventListener("click", (e) => 
+    playRound(getComputerChoice(), e.target.getAttribute("data-choice"))));
+
+const results = document.querySelector('#results');
+
+initGame();
+
+function initGame() {
+  humanScore = 0;
+  computerScore = 0;
+  round = 0;
+  results.textContent = '';
+  playBtns.forEach(btn => btn.disabled = false)
+  computerScoreEl.textContent = 0;
+  humanScoreEl.textContent = 0;
 }
 
 function getComputerChoice() {
@@ -20,27 +30,21 @@ function getComputerChoice() {
   return CHOICES[randomIndex];
 }
 
-function getHumanChoice() {
-  const humanChoice = prompt(`Please enter one of: ${CHOICES.join(', ')}`).toLowerCase();
-  if (CHOICES.includes(humanChoice)) {
-    return humanChoice
-  } else {
-    console.error(new TypeError(`Valid choices are: ${CHOICES.join(', ')}. You entered: ${humanChoice}`))
-  }
-}
-
 function playRound(computerChoice, humanChoice) {
+  round++;
   const roundWinner = getRoundWinner(computerChoice, humanChoice);
+  const result = document.createElement('p')
   if (roundWinner == "tie") {
-    console.log(`It's a tie. You both selected: ${capitalize(computerChoice)}`);
+    result.textContent = `It's a tie. You both selected: ${capitalize(computerChoice)}`;
   } else {
     if (roundWinner == "computer") {
-      console.log(`Computer wins current round! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`)
+      result.textContent = `Computer wins current round! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}`;
     } else {
-      console.log(`You win current round! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}`)
+      result.textContent = `You win current round! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}`;
     }
   }
-  return roundWinner;
+  results.appendChild(result);
+  processRoundResult(roundWinner);
 }
 
 function getRoundWinner(computerChoice, humanChoice) {
@@ -57,6 +61,33 @@ function getRoundWinner(computerChoice, humanChoice) {
   }
 }
 
+function processRoundResult(roundWinner) {
+  if (roundWinner == "computer") {
+    computerScore++;
+    computerScoreEl.textContent = computerScore;
+  } else if (roundWinner == "human") {
+    humanScore++;
+    humanScoreEl.textContent = humanScore;
+  }
+  if (humanScore >= WINNING_POINTS || computerScore >= WINNING_POINTS) finishGame();
+}
+
+function finishGame() {
+  const endResult = document.createElement('p');
+  if (humanScore > computerScore) {
+    endResult.textContent = "You win!";
+    endResult.style.color = "green";
+  } else if (humanScore == computerScore) {
+    endResult.textContent = "It's a tie!";
+  } else {
+    endResult.textContent = "You lose!";
+    endResult.style.color = "red";
+  }
+  endResult.style.fontWeight = "bold";
+  results.appendChild(endResult);
+  playBtns.forEach(btn => btn.disabled = true)
+}
+
 function capitalize(string) {
   if (string.length == 1) {
     return string[0].toUpperCase();
@@ -64,5 +95,3 @@ function capitalize(string) {
     return string[0].toUpperCase() + string.slice(1).toLowerCase();
   }
 }
-
-playGame()

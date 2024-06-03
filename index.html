@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Odin Rock Paper Scissors</title>
+  <script src="script.js" defer></script>
 </head>
+
 <body>
-<h1>Odin Rock Paper Scissors</h1>
-<p>For now, this game is played via the JavaScript console. Please open the DevTools to play the game.</p>
-<script src="script.js"></script>
+  <h1>Odin Rock Paper Scissors</h1>
+  <button id="init-btn">(Re-)Start the game</button>
+  <h2>Current Score</h2>
+  <p>Computer <span id="computer-score">0</span> : You <span id="human-score">0</span></p>
+  <h2>Your choice:</h2>
+  <button data-choice="rock">Rock</button>
+  <button data-choice="paper">Paper</button>
+  <button data-choice="scissors">Scissors</button>
+  <h2>Results:</h2>
+  <div id="results"></div>
 </body>
+
 </html>
